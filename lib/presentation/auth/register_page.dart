@@ -4,7 +4,6 @@ import 'package:notes_app/data/model/request/register_request_model.dart';
 import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -13,11 +12,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +71,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextField(
@@ -88,19 +86,16 @@ class _RegisterPageState extends State<RegisterPage> {
             padding: const EdgeInsets.all(16.0),
             child: BlocListener<RegisterBloc, RegisterState>(
               listener: (context, state) {
-                if(state is RegisterSuccess){
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const LoginPage())
-                  );
+                if (state is RegisterSuccess) {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const LoginPage()));
                 }
 
-                if(state is RegisterFailed){
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                        content: Text(state.message),
-                      backgroundColor: Colors.red,
-                    )
-                  );
+                if (state is RegisterFailed) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                  ));
                 }
               },
               child: BlocBuilder<RegisterBloc, RegisterState>(
@@ -117,12 +112,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             name: _nameController.text,
                             email: _emailController.text,
                             password: _passwordController.text,
-                            passwordConfirmation: _passwordConfirmationController
-                                .text
-                        );
+                            passwordConfirmation:
+                                _passwordConfirmationController.text);
 
-                        context.read<RegisterBloc>().add(
-                            RegisterButtonPressed(data: dataModel));
+                        context
+                            .read<RegisterBloc>()
+                            .add(RegisterButtonPressed(data: dataModel));
 
                         //call register function
                         // AuthRemoteDataSource dataSource = AuthRemoteDataSource();
@@ -150,10 +145,14 @@ class _RegisterPageState extends State<RegisterPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('Already have an account?'),
-              TextButton(onPressed: () {
-                Navigator.pop(context,
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
-              }, child: const Text('Sign In'))
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginPage()));
+                  },
+                  child: const Text('Sign In'))
             ],
           )
         ],

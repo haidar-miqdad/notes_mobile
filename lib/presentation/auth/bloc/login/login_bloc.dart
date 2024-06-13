@@ -11,16 +11,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRemoteDataSource remote;
 
   LoginBloc(this.remote) : super(LoginInitial()) {
-    on<LoginButtonPressed>((event, emit) async{
+    on<LoginButtonPressed>((event, emit) async {
       emit(LoginLoading());
       final response = await remote.login(event.email, event.password);
-      response.fold(
-              (l) => emit(LoginFailed(message: l)),
-              (r) {
-                AuthLocalDatasource().saveAuthData(r);
-                emit(LoginSuccess(data: r));
-              }
-      );
+      response.fold((l) => emit(LoginFailed(message: l)), (r) {
+        AuthLocalDatasource().saveAuthData(r);
+        emit(LoginSuccess(data: r));
+      });
     });
   }
 }

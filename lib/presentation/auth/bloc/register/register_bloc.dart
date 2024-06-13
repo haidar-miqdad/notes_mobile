@@ -12,13 +12,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthRemoteDataSource remote;
 
   RegisterBloc(this.remote) : super(RegisterInitial()) {
-    on<RegisterButtonPressed>((event, emit) async{
+    on<RegisterButtonPressed>((event, emit) async {
       emit(RegisterLoading());
       final response = await remote.register(event.data);
-      response.fold(
-        (l) => emit(RegisterFailed(message: l)),
-        (r) => emit(RegisterSuccess(data: r))
-      );
+      response.fold((l) => emit(RegisterFailed(message: l)),
+          (r) => emit(RegisterSuccess(data: r)));
     });
   }
 }

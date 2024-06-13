@@ -4,6 +4,7 @@ import 'package:notes_app/data/datasources/auth_lokal_datasource.dart';
 import 'package:notes_app/data/datasources/auth_remote_datasource.dart';
 import 'package:notes_app/pages/home_navigator.dart';
 import 'package:notes_app/presentation/auth/bloc/login/login_bloc.dart';
+import 'package:notes_app/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
 
@@ -16,13 +17,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Create instances of AuthLocalDatasource and AuthRemoteDataSource
+    final authLocalDatasource = AuthLocalDatasource();
+    final authRemoteDataSource = AuthRemoteDataSource(authLocalDatasource);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RegisterBloc(AuthRemoteDataSource()),
+          create: (context) => RegisterBloc(authRemoteDataSource),
         ),
         BlocProvider(
-          create: (context) => LoginBloc(AuthRemoteDataSource()),
+          create: (context) => LoginBloc(authRemoteDataSource),
+        ),
+        BlocProvider(
+          create: (context) => LogoutBloc(authRemoteDataSource),
         ),
       ],
       child: MaterialApp(
@@ -33,23 +41,19 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: FutureBuilder<bool>(
-          future: AuthLocalDatasource().isLogin(),
+          future: authLocalDatasource.isLogin(),
           builder: (context, snapshot) {
-            if(snapshot.connectionState == ConnectionState.waiting){
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(),
                 ),
               );
             }
-            if(snapshot.hasData){
-              return snapshot.hasData! ? const HomePage() : const LoginPage();
+            if (snapshot.hasData && snapshot.data == true) {
+              return const HomePage();
             }
-            return const Scaffold(
-              body: Center(
-                child: Text('error'),
-              ),
-            );
+            return const LoginPage();
           },
         ),
       ),
