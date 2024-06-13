@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notes_app/data/datasources/auth_remote_datasource.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/model/request/register_request_model.dart';
+import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
+
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -84,43 +86,74 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-                onPressed: () async{
-
-                  //register
-                  final dataModel = RegisterRequestModel(
-                    name: _nameController.text,
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    passwordConfirmation: _passwordConfirmationController.text
+            child: BlocListener<RegisterBloc, RegisterState>(
+              listener: (context, state) {
+                if(state is RegisterSuccess){
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const LoginPage())
                   );
+                }
 
-                  //call register function
-                  AuthRemoteDataSource dataSource = AuthRemoteDataSource();
-                  final response = await dataSource.register(dataModel);
+                if(state is RegisterFailed){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                        content: Text(state.message),
+                      backgroundColor: Colors.red,
+                    )
+                  );
+                }
+              },
+              child: BlocBuilder<RegisterBloc, RegisterState>(
+                builder: (context, state) {
+                  if (state is RegisterLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ElevatedButton(
+                      onPressed: () async {
+                        //register
+                        final dataModel = RegisterRequestModel(
+                            name: _nameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            passwordConfirmation: _passwordConfirmationController
+                                .text
+                        );
 
-                  //check response
-                  response.fold(
-                          (error){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(error))
-                            );
-                          }, (success){
-                             ScaffoldMessenger.of(context).showSnackBar(
-                               SnackBar(content: Text('success'))
-                             );
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
-                          });
+                        context.read<RegisterBloc>().add(
+                            RegisterButtonPressed(data: dataModel));
+
+                        //call register function
+                        // AuthRemoteDataSource dataSource = AuthRemoteDataSource();
+                        // final response = await dataSource.register(dataModel);
+                        //
+                        // //check response
+                        // response.fold(
+                        //         (error){
+                        //           ScaffoldMessenger.of(context).showSnackBar(
+                        //             SnackBar(content: Text(error))
+                        //           );
+                        //         }, (success){
+                        //            ScaffoldMessenger.of(context).showSnackBar(
+                        //              SnackBar(content: Text('success'))
+                        //            );
+                        //            Navigator.push(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
+                        //         });
+                      },
+                      child: const Text('Register'));
                 },
-                child: const Text('Register')),
+              ),
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text('Already have an account?'),
               TextButton(onPressed: () {
-                Navigator.pop(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
-                }, child: const Text('Sign In'))
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => const LoginPage()));
+              }, child: const Text('Sign In'))
             ],
           )
         ],

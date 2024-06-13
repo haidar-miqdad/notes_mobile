@@ -12,9 +12,17 @@ class _HomePageState extends State<HomePage> {
 
   int _index = 0;
 
+  bool isDark = false;
+
   void onTapHandler(int value){
     setState(() {
       _index = value;
+    });
+  }
+
+  void changeTheme(){
+    setState(() {
+      isDark = !isDark;
     });
   }
 
@@ -24,6 +32,8 @@ class _HomePageState extends State<HomePage> {
      const ProfilePage(),
      const SettingPage(),
   ];
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Home Page'),
         actions: [
           IconButton(onPressed: (){}, icon: const Icon(Icons.search)),
-          IconButton(onPressed: (){}, icon: const Icon(Icons.more_vert))
+          IconButton(onPressed: (){}, icon: const Icon(Icons.logout_rounded))
         ],
       ),
       body: pages[_index],
