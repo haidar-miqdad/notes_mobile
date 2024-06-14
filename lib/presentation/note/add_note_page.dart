@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:notes_app/presentation/note/bloc/add_note_bloc.dart';
 import 'package:notes_app/presentation/note/notes_page.dart';
+
+import 'note_bloc/add_note_bloc.dart';
 
 class AddNotePage extends StatefulWidget {
   const AddNotePage({super.key});

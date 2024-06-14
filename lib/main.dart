@@ -7,8 +7,11 @@ import 'package:notes_app/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
-import 'package:notes_app/presentation/note/bloc/add_note_bloc.dart';
+import 'package:notes_app/presentation/note/all_note_bloc/all_notes_bloc.dart';
+import 'package:notes_app/presentation/note/delete_note/delete_note_bloc.dart';
 import 'package:notes_app/presentation/note/notes_page.dart';
+
+import 'presentation/note/note_bloc/add_note_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +39,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddNoteBloc(NoteRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => AllNotesBloc(NoteRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => DeleteNoteBloc(NoteRemoteDatasource()),
         ),
       ],
       child: MaterialApp(

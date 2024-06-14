@@ -50,7 +50,7 @@ class Note {
   factory Note.fromMap(Map<String, dynamic> json) => Note(
     title: json["title"],
     content: json["content"],
-    isPinned: json["is_pinned"],
+    isPinned: json["is_pinned"] is int ? json["is_pinned"].toString() : json["is_pinned"],
     image: json["image"],
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
