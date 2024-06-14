@@ -17,6 +17,20 @@ class _AddNotePageState extends State<AddNotePage> {
 
   XFile? image;
 
+  void isPinHandler(bool value){
+    setState(() {
+      isPin = value;
+    });
+  }
+
+  //image picker handeler
+  void imagePickerHandler() async{
+    final XFile? _image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      image = _image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,20 +39,22 @@ class _AddNotePageState extends State<AddNotePage> {
       ),
       body: ListView(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: InputDecoration(
+              controller: _titleController,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Title',
               ),
             ),
           ),
 
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: InputDecoration(
+              controller: _contentController,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Content',
               ),
@@ -51,7 +67,7 @@ class _AddNotePageState extends State<AddNotePage> {
               children: [
                 const Text('isPin?'),
                 const SizedBox(width: 16,),
-                Switch(value: false, onChanged: (_) {}),
+                Switch(value: isPin, onChanged: isPinHandler),
               ],
             ),
           ),
