@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/datasources/auth_lokal_datasource.dart';
 import 'package:notes_app/data/datasources/auth_remote_datasource.dart';
-import 'package:notes_app/pages/home_navigator.dart';
 import 'package:notes_app/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
+import 'package:notes_app/presentation/note/notes_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
               );
             }
             if (snapshot.hasData && snapshot.data == true) {
-              return const HomePage();
+              return const NotesPage();
             }
             return const LoginPage();
           },

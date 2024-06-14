@@ -8,7 +8,6 @@ import 'auth_lokal_datasource.dart';
 
 class AuthRemoteDataSource {
   final AuthLocalDatasource local;
-
   AuthRemoteDataSource(this.local);
 
   // Register
@@ -49,7 +48,7 @@ class AuthRemoteDataSource {
   Future<Either<String, bool>> logout() async {
     final authData = await local.getAuthData();
     if (authData == null) {
-      return Left('No auth data found');
+      return const Left('No auth data found');
     }
 
     final response = await http.post(

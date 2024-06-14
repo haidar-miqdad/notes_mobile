@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:notes_app/pages/home_navigator.dart';
 import 'package:notes_app/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:notes_app/presentation/auth/register_page.dart';
+import 'package:notes_app/presentation/note/notes_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const HomePage()));
+                          builder: (context) => const NotesPage()));
                 }
 
                 if (state is LoginFailed) {
