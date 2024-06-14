@@ -31,8 +31,16 @@ class NoteRemoteDatasource{
         await http.MultipartFile.fromPath(
           'image',
           image.path,
-        )
+        ),
       );
+    }
+    http.StreamedResponse response = await request.send();
+
+    final String body = await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      return Right(NotesResponseModel.fromJson(body));
+    } else {
+      return Left(body);
     }
   }
 }

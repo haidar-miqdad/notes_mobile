@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddNotePage extends StatefulWidget {
   const AddNotePage({super.key});
@@ -8,6 +9,14 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNotePageState extends State<AddNotePage> {
+
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
+
+  bool isPin = false;
+
+  XFile? image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

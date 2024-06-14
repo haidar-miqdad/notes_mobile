@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/data/datasources/auth_lokal_datasource.dart';
 import 'package:notes_app/data/datasources/auth_remote_datasource.dart';
+import 'package:notes_app/data/datasources/note_remote_datasource.dart';
 import 'package:notes_app/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/logout/logout_bloc.dart';
 import 'package:notes_app/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:notes_app/presentation/auth/login_page.dart';
+import 'package:notes_app/presentation/note/bloc/add_note_bloc.dart';
 import 'package:notes_app/presentation/note/notes_page.dart';
 
 void main() {
@@ -31,6 +33,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LogoutBloc(authRemoteDataSource),
+        ),
+        BlocProvider(
+          create: (context) => AddNoteBloc(NoteRemoteDatasource()),
         ),
       ],
       child: MaterialApp(
