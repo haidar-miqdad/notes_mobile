@@ -22,6 +22,7 @@ class _NotesPageState extends State<NotesPage> {
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         title: const Text('Notes'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
