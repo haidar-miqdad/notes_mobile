@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -74,8 +76,23 @@ class _AddNotePageState extends State<AddNotePage> {
 
           Padding(
             padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+                onPressed: imagePickerHandler,
+                child: const Text('Pick Image')
+            ),
+          ),
+
+          //image preview
+          if(image != null)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Image.file(File(image!.path)),
+            ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(onPressed: (){}, child: const Text('Save')),
-          )
+          ),
         ],
       )
     );
