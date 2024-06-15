@@ -4,5 +4,3 @@ part of 'all_notes_bloc.dart';
 sealed class AllNotesEvent {}
 
 class GetAllNotes extends AllNotesEvent {}
-
-

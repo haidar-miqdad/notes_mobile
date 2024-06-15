@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               if (state is LogoutFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.message ?? 'Logout failed'),
+                    content: Text(state.message),
                     backgroundColor: Colors.red,
                   ),
                 );

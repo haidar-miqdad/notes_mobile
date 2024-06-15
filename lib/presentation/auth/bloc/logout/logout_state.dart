@@ -10,7 +10,7 @@ final class LogoutLoading extends LogoutState {}
 final class LogoutSuccess extends LogoutState {}
 
 final class LogoutFailed extends LogoutState {
-  final String? message;
+  final String message;
 
   LogoutFailed({required this.message});
 }

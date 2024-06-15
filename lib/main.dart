@@ -10,6 +10,7 @@ import 'package:notes_app/presentation/auth/login_page.dart';
 import 'package:notes_app/presentation/note/all_note_bloc/all_notes_bloc.dart';
 import 'package:notes_app/presentation/note/delete_note/delete_note_bloc.dart';
 import 'package:notes_app/presentation/note/notes_page.dart';
+import 'package:notes_app/presentation/note/update_note/update_note_bloc.dart';
 
 import 'presentation/note/note_bloc/add_note_bloc.dart';
 
@@ -22,20 +23,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Create instances of AuthLocalDatasource and AuthRemoteDataSource
-    final authLocalDatasource = AuthLocalDatasource();
-    final authRemoteDataSource = AuthRemoteDataSource(authLocalDatasource);
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => RegisterBloc(authRemoteDataSource),
+          create: (context) => RegisterBloc(AuthRemoteDataSource()),
         ),
         BlocProvider(
-          create: (context) => LoginBloc(authRemoteDataSource),
+          create: (context) => LoginBloc(AuthRemoteDataSource()),
         ),
         BlocProvider(
-          create: (context) => LogoutBloc(authRemoteDataSource),
+          create: (context) => LogoutBloc(AuthRemoteDataSource()),
         ),
         BlocProvider(
           create: (context) => AddNoteBloc(NoteRemoteDatasource()),
@@ -46,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => DeleteNoteBloc(NoteRemoteDatasource()),
         ),
+        BlocProvider(
+          create: (context) => UpdateNoteBloc(NoteRemoteDatasource()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: FutureBuilder<bool>(
-          future: authLocalDatasource.isLogin(),
+          future: AuthLocalDatasource().isLogin(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(

@@ -7,11 +7,9 @@ import '../model/request/register_request_model.dart';
 import 'auth_lokal_datasource.dart';
 
 class AuthRemoteDataSource {
-  final AuthLocalDatasource local;
-  AuthRemoteDataSource(this.local);
-
   // Register
-  Future<Either<String, AuthResponseModel>> register(RegisterRequestModel model) async {
+  Future<Either<String, AuthResponseModel>> register(
+      RegisterRequestModel model) async {
     final response = await http.post(
       Uri.parse('${Config.baseUrl}/api/register'),
       body: model.toJson(),
@@ -28,7 +26,8 @@ class AuthRemoteDataSource {
   }
 
   // Login
-  Future<Either<String, AuthResponseModel>> login(String email, String password) async {
+  Future<Either<String, AuthResponseModel>> login(
+      String email, String password) async {
     final response = await http.post(
       Uri.parse('${Config.baseUrl}/api/login'),
       body: jsonEncode({'email': email, 'password': password}),
@@ -45,8 +44,8 @@ class AuthRemoteDataSource {
   }
 
   // Logout
-  Future<Either<String, bool>> logout() async {
-    final authData = await local.getAuthData();
+  Future<Either<String, String>> logout() async {
+    final authData = await AuthLocalDatasource().getAuthData();
     if (authData == null) {
       return const Left('No auth data found');
     }
@@ -60,8 +59,7 @@ class AuthRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      await local.removeAuthData();
-      return const Right(true);
+      return const Right('Logout Success');
     } else {
       return Left(response.body);
     }

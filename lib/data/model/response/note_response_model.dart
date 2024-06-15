@@ -9,19 +9,21 @@ class NotesResponseModel {
     this.data,
   });
 
-  factory NotesResponseModel.fromJson(String str) => NotesResponseModel.fromMap(json.decode(str));
+  factory NotesResponseModel.fromJson(String str) =>
+      NotesResponseModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory NotesResponseModel.fromMap(Map<String, dynamic> json) => NotesResponseModel(
-    message: json["message"],
-    data: json["data"] == null ? null : Note.fromMap(json["data"]),
-  );
+  factory NotesResponseModel.fromMap(Map<String, dynamic> json) =>
+      NotesResponseModel(
+        message: json["message"],
+        data: json["data"] == null ? null : Note.fromMap(json["data"]),
+      );
 
   Map<String, dynamic> toMap() => {
-    "message": message,
-    "data": data?.toMap(),
-  };
+        "message": message,
+        "data": data?.toMap(),
+      };
 }
 
 class Note {
@@ -48,22 +50,26 @@ class Note {
   String toJson() => json.encode(toMap());
 
   factory Note.fromMap(Map<String, dynamic> json) => Note(
-    title: json["title"],
-    content: json["content"],
-    isPinned: json["is_pinned"] is int ? json["is_pinned"].toString() : json["is_pinned"],
-    image: json["image"],
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    id: json["id"],
-  );
+        title: json["title"],
+        content: json["content"],
+        isPinned: json["is_pinned"] is int ? json["is_pinned"].toString() : json["is_pinned"],
+        image: json["image"],
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        id: json["id"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "title": title,
-    "content": content,
-    "is_pinned": isPinned,
-    "image": image,
-    "updated_at": updatedAt?.toIso8601String(),
-    "created_at": createdAt?.toIso8601String(),
-    "id": id,
-  };
+        "title": title,
+        "content": content,
+        "is_pinned": isPinned,
+        "image": image,
+        "updated_at": updatedAt?.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "id": id,
+      };
 }

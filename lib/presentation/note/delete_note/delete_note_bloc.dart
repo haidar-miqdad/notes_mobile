@@ -10,15 +10,15 @@ class DeleteNoteBloc extends Bloc<DeleteNoteEvent, DeleteNoteState> {
   final NoteRemoteDatasource remote;
   DeleteNoteBloc(this.remote) : super(DeleteNoteInitial()) {
     on<DeleteNoteButtonPressed>((event, emit) async {
-      emit (DeleteNoteLoading());
-      final result = await remote.deleteNote(event.id);
+      emit(DeleteNoteLoading());
+      final result = await remote.deleteNotes(event.id);
       result.fold(
-            (error) => emit(
+        (error) => emit(
           DeleteNoteFailed(
             message: error,
           ),
         ),
-            (data) => emit(
+        (data) => emit(
           DeleteNoteSuccess(
             message: data,
           ),

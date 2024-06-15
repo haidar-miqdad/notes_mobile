@@ -13,8 +13,8 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
       emit(LogoutLoading());
       final response = await remote.logout();
       response.fold(
-            (error) => emit(LogoutFailed(message: error)),
-            (success) => emit(LogoutSuccess()),
+        (error) => emit(LogoutFailed(message: error)),
+        (success) => emit(LogoutSuccess()),
       );
     });
   }

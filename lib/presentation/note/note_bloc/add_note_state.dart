@@ -13,7 +13,7 @@ final class AddNoteSuccess extends AddNoteState {
   AddNoteSuccess({required this.data});
 }
 
-final class AddNoteFailed extends AddNoteState{
+final class AddNoteFailed extends AddNoteState {
   final String message;
 
   AddNoteFailed({required this.message});
